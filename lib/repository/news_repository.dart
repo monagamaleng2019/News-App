@@ -8,10 +8,14 @@ class NewsRepository {
   final _request = RequestService();
 
   Future<List<Article>> getMainHeadLinesAsync() async {
+    var list = List<Article>();
     try {
       var response = await _request.getAsync(baseUrl);
-      var result = ((response.data['articles']));
-      return result.map((item) => Article.fromJson(item)).toList();
+      var result = response.data['articles'];
+      for (var article in result) {
+        list.add(Article.fromJson(article));
+      }
     } catch (exception) {}
+    return list;
   }
 }

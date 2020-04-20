@@ -8,16 +8,10 @@ class HomeVM with ChangeNotifier {
   ConnectionService connection;
   HomeVM(this._newsRepository, this.connection);
 
-  List<Article> mainHeadLines = List<Article>();
+  Future<List<Article>> loadMainHeadLines() async {
+    var list = await _newsRepository.getMainHeadLinesAsync();
 
-  loadMainHeadLines() async {
-    if (!connection.isConnected) {
-      return;
-    }
-    setLoading(true);
-    mainHeadLines = await _newsRepository.getMainHeadLinesAsync();
-    setLoading(false);
-    return mainHeadLines;
+    return list;
   }
 
   bool _isLoading = false;
